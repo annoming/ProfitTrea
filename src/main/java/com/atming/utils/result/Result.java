@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @Time: 9:03
  * @Description
  */
-public class Result implements Serializable {
+public final class Result implements Serializable {
     private Integer code;
     private String msg;
     private Object data;
@@ -20,14 +20,17 @@ public class Result implements Serializable {
 
     }
 
-    
+
 
     public static Result success(Object data){
-        Integer code = ResultCode.SUCCESS.getCode();
         String msg = ResultCode.SUCCESS.getMsg();
-        return success(code,msg,data);
+        return success(msg,data);
     }
 
+    public static Result success(String msg,Object data){
+        Integer code = ResultCode.SUCCESS.getCode();
+        return success(code,msg,data);
+    }
 
     private static Result success(Integer code,String msg,Object data) {
         Result result = new Result();
