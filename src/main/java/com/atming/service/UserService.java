@@ -1,5 +1,7 @@
 package com.atming.service;
 
+import com.atming.entity.User;
+
 /**
  * Created by IntelliJ IDEA.
  *
@@ -10,4 +12,10 @@ package com.atming.service;
  */
 
 public interface UserService{
+    /**
+     * 判断用户是否存在
+     * @param user 用户信息
+     * @return User
+     */
+    User getLogin(User user);
 }

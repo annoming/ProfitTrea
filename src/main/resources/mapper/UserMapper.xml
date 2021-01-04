@@ -3,5 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atming.mapper.UserMapper">
+    <resultMap type="com.atming.entity.User" id="users">
+        <id column="username" property="userName"/>
+        <result column="username" property="userName"/>
+        <result column="password" property="password"/>
+    </resultMap>
 
+    <select id="findOne" resultMap="users">
+        select * from profittrea_user where username = #{userName};
+    </select>
 </mapper>

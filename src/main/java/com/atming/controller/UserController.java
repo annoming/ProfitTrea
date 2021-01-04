@@ -1,10 +1,15 @@
 package com.atming.controller;
 
+import com.atming.entity.User;
 import com.atming.service.UserService;
+import com.atming.utils.PasswordSaltUtil;
+import com.atming.utils.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,7 +28,22 @@ public class UserController {
     private UserService userService;
 
     @GetMapping(value = "/login")
-    public String login(){
-        return "login";
+    @CrossOrigin
+    public Result login(@RequestParam(name="username")String userName,@RequestParam(name="password")String password){
+
+        User user = new User(userName,password);
+        User loginUser = userService.getLogin(user);
+        if(loginUser == null){
+            return Result.fail("用户不存在");
+        }else{
+            String salt = loginUser.getSalt();
+            PasswordSaltUtil passwordSalt = new PasswordSaltUtil(salt,"sha-256");
+            boolean valid = passwordSalt.isPasswordValid(loginUser.getPassword(), user.getPassword());
+            if(valid){
+                return Result.success(user);
+            }else{
+                return Result.fail("用户名密码不正确");
+            }
+        }
     }
 }

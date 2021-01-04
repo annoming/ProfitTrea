@@ -1,5 +1,7 @@
 package com.atming.mapper;
 
+import com.atming.entity.User;
+
 /**
  * Created by IntelliJ IDEA.
  *
@@ -10,4 +12,5 @@ package com.atming.mapper;
  */
 public interface UserMapper {
 
+    User findOne(String userName);
 }
