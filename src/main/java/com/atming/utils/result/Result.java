@@ -36,6 +36,23 @@ public final class Result implements Serializable {
         return result;
     }
 
+    public static Result fail(String msg) {
+        return fail(ResultCode.FAIL.getCode(),msg,null);
+    }
+
+    public static Result fail(String msg, Object data) {
+        return fail(ResultCode.FAIL.getCode(),msg,data);
+
+    }
+
+    private static Result fail(Integer code, String msg,Object data) {
+        Result result = new Result();
+        result.setCode(code);
+        result.setMsg(msg);
+        result.setData(data);
+        return result;
+    }
+
     public void setCode(Integer code) {
         this.code = code;
     }
