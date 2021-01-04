@@ -24,10 +24,6 @@ public final class Result implements Serializable {
 
     public static Result success(Object data){
         String msg = ResultCode.SUCCESS.getMsg();
-        return success(msg,data);
-    }
-
-    public static Result success(String msg,Object data){
         Integer code = ResultCode.SUCCESS.getCode();
         return success(code,msg,data);
     }
