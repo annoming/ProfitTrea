@@ -13,26 +13,29 @@ package com.atming.utils.result;
 public enum ResultCode {
 
     /**
-     * 操作成功
+     * 响应码类别
      */
     SUCCESS(100,"操作成功"),
     FAIL(103,"响应失败"),
     VALIDATE_FAILED(102,"参数校验失败"),
     ERROR(104,"未知错误");
 
-    private int code;
+    private Integer code;
     private String msg;
 
-    ResultCode(int code, String msg) {
+
+    ResultCode(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public int getCode() {
+    public Integer getCode() {
         return code;
     }
 
     public String getMsg() {
         return msg;
     }
+
+
 }
