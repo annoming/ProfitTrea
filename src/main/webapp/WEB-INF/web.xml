@@ -60,5 +60,41 @@
         <filter-name>druidWebStatFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <filter>
+        <filter-name>CORS</filter-name>
+        <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+        <init-param>
+            <!--服务器允许跨域请求的域名(*表示全部均可)-->
+            <param-name>cors.allowOrigin</param-name>
+            <param-value>*</param-value>
+        </init-param>
+        <init-param>
+            <!--服务端支持的请求方法(*表示全部均可)-->
+            <param-name>cors.supportedMethods</param-name>
+            <param-value>GET, POST, HEAD, PUT, DELETE</param-value>
+        </init-param>
+        <init-param>
+            <!--允许返回给跨域请求的响应头列表-->
+            <param-name>cors.supportedHeaders</param-name>
+            <param-value>Accept, Origin, X-Requested-With, Content-Type, Last-Modified</param-value>
+        </init-param>
+        <init-param>
+            <!-- 允许返回给跨域请求的响应头列表-->
+            <param-name>cors.exposedHeaders</param-name>
+            <param-value>Set-Cookie</param-value>
+        </init-param>
+        <init-param>
+            <!--告知浏览器当withCredentials属性设置为true时，是否可以显示跨域请求返回的内容。
+            简单请求时，浏览器会根据此响应头决定是否显示响应的内容。
+            预先验证请求时，浏览器会根据此响应头决定在发送实际跨域请求时，是否携带认证信息。-->
+            <param-name>cors.supportsCredentials</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CORS</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
 

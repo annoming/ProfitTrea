@@ -6,10 +6,10 @@ import com.atming.utils.PasswordSaltUtil;
 import com.atming.utils.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,10 +27,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/login")
-    @CrossOrigin
+    @ResponseBody
+    @PostMapping(value = "/login")
     public Result login(@RequestParam(name="username")String userName,@RequestParam(name="password")String password){
-
         User user = new User(userName,password);
         User loginUser = userService.getLogin(user);
         if(loginUser == null){
@@ -40,7 +39,7 @@ public class UserController {
             PasswordSaltUtil passwordSalt = new PasswordSaltUtil(salt,"sha-256");
             boolean valid = passwordSalt.isPasswordValid(loginUser.getPassword(), user.getPassword());
             if(valid){
-                return Result.success(user);
+                return Result.success(loginUser.getUserName());
             }else{
                 return Result.fail("用户名密码不正确");
             }

@@ -53,6 +53,22 @@ public final class Result implements Serializable {
         return result;
     }
 
+    /**
+     * getter方法一定要设置，否则使用@ResponseBody时返回数据会报错
+     * @return Integer
+     */
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
     public void setCode(Integer code) {
         this.code = code;
     }
