@@ -20,7 +20,6 @@ public class User {
     private String email;
     private Integer status;
     private Date createTime;
-
     public User() {
 
     }
