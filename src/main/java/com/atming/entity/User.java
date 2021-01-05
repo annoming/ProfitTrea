@@ -20,6 +20,8 @@ public class User {
     private String email;
     private Integer status;
     private Date createTime;
+    private Date updateTime;
+
     public User() {
 
     }
@@ -29,7 +31,7 @@ public class User {
         this.password = password;
     }
 
-    public User(String userId, String userName, String password, String salt, String realName, String avatar, String email, Integer status, Date createTime) {
+    public User(String userId, String userName, String password, String salt, String realName, String avatar, String email, Integer status, Date createTime, Date updateTime) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
@@ -39,6 +41,7 @@ public class User {
         this.email = email;
         this.status = status;
         this.createTime = createTime;
+        this.updateTime = updateTime;
     }
 
     public String getUserId() {
@@ -113,6 +116,14 @@ public class User {
         this.createTime = createTime;
     }
 
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -125,6 +136,7 @@ public class User {
                 ", email='" + email + '\'' +
                 ", status=" + status +
                 ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }
