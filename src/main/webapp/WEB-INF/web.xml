@@ -1,13 +1,16 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <display-name>Archetype Created Web Application</display-name>
     <!--将applicationContext.xml加到配置文件-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>/WEB-INF/applicationContext.xml</param-value>
+        <param-value>classpath:applicationContext.xml</param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -19,7 +22,7 @@
         <init-param>
             <!--配置dispathcher-servlet.xml作为mvc的配置文件-->
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/dispatcher-servlet.xml</param-value>
+            <param-value>classpath:dispatcher-servlet.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -27,4 +30,71 @@
         <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <!--配置druid-->
+    <servlet>
+        <servlet-name>DruidStatView</servlet-name>
+        <servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DruidStatView</servlet-name>
+        <url-pattern>/druid/*</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <filter-name>druidWebStatFilter</filter-name>
+        <filter-class>com.alibaba.druid.support.http.WebStatFilter</filter-class>
+        <init-param>
+            <param-name>exclusions</param-name>
+            <param-value>/public/*,*.js,*.css,/druid*,*.jsp,*.swf</param-value>
+        </init-param>
+        <init-param>
+            <param-name>principalSessionName</param-name>
+            <param-value>sessionInfo</param-value>
+        </init-param>
+        <init-param>
+            <param-name>profileEnable</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>druidWebStatFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>CORS</filter-name>
+        <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+        <init-param>
+            <!--服务器允许跨域请求的域名(*表示全部均可)-->
+            <param-name>cors.allowOrigin</param-name>
+            <param-value>*</param-value>
+        </init-param>
+        <init-param>
+            <!--服务端支持的请求方法(*表示全部均可)-->
+            <param-name>cors.supportedMethods</param-name>
+            <param-value>GET, POST, HEAD, PUT, DELETE</param-value>
+        </init-param>
+        <init-param>
+            <!--允许返回给跨域请求的响应头列表-->
+            <param-name>cors.supportedHeaders</param-name>
+            <param-value>Accept, Origin, X-Requested-With, Content-Type, Last-Modified</param-value>
+        </init-param>
+        <init-param>
+            <!-- 允许返回给跨域请求的响应头列表-->
+            <param-name>cors.exposedHeaders</param-name>
+            <param-value>Set-Cookie</param-value>
+        </init-param>
+        <init-param>
+            <!--告知浏览器当withCredentials属性设置为true时，是否可以显示跨域请求返回的内容。
+            简单请求时，浏览器会根据此响应头决定是否显示响应的内容。
+            预先验证请求时，浏览器会根据此响应头决定在发送实际跨域请求时，是否携带认证信息。-->
+            <param-name>cors.supportsCredentials</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CORS</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
+
