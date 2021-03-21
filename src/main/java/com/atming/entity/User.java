@@ -10,39 +10,12 @@ import java.util.Date;
  * @Time: 23:45
  * @Description
  */
-public class User {
+public class User extends OrganizationManger{
+    /**用户编号*/
     private String userId;
-    private String userName;
-    private String password;
-    private String salt;
+
+    /**用户真实姓名*/
     private String realName;
-    private String avatar;
-    private String email;
-    private Integer status;
-    private Date createTime;
-    private Date updateTime;
-
-    public User() {
-
-    }
-
-    public User(String userName,String password){
-        this.userName = userName;
-        this.password = password;
-    }
-
-    public User(String userId, String userName, String password, String salt, String realName, String avatar, String email, Integer status, Date createTime, Date updateTime) {
-        this.userId = userId;
-        this.userName = userName;
-        this.password = password;
-        this.salt = salt;
-        this.realName = realName;
-        this.avatar = avatar;
-        this.email = email;
-        this.status = status;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
-    }
 
     public String getUserId() {
         return userId;
@@ -50,30 +23,6 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public String getRealName() {
@@ -84,59 +33,71 @@ public class User {
         this.realName = realName;
     }
 
-    public String getAvatar() {
-        return avatar;
+    @Override
+    public String getOrganizeName() {
+        return super.getOrganizeName();
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    @Override
+    public void setOrganizeName(String organizeName) {
+        super.setOrganizeName(organizeName);
     }
 
-    public String getEmail() {
-        return email;
+    @Override
+    public String getLocationAddress() {
+        return super.getLocationAddress();
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public void setLocationAddress(String locationAddress) {
+        super.setLocationAddress(locationAddress);
     }
 
-    public Integer getStatus() {
-        return status;
+    @Override
+    public String getDetailAddress() {
+        return super.getDetailAddress();
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    @Override
+    public void setDetailAddress(String detailAddress) {
+        super.setDetailAddress(detailAddress);
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    @Override
+    public String getOrganizeId() {
+        return super.getOrganizeId();
     }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    @Override
+    public void setOrganizeId(String organizeId) {
+        super.setOrganizeId(organizeId);
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    @Override
+    public String getOrganizeEmail() {
+        return super.getOrganizeEmail();
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    @Override
+    public void setOrganizeEmail(String organizeEmail) {
+        super.setOrganizeEmail(organizeEmail);
+    }
+
+    @Override
+    public int getOrganizeType() {
+        return super.getOrganizeType();
+    }
+
+    @Override
+    public void setOrganizeType(int organizeType) {
+        super.setOrganizeType(organizeType);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "userId='" + userId + '\'' +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
                 ", realName='" + realName + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", email='" + email + '\'' +
-                ", status=" + status +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
                 '}';
     }
 }
