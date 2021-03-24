@@ -1,5 +1,6 @@
 package com.atming.entity;
 
+import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -21,7 +22,7 @@ public class OrganizationManger{
     private String organizeEmail;
 
     /**所在地区*/
-    private String locationAddress;
+    private String[] locationAddress;
 
     /**详细地址*/
     private String detailAddress;
@@ -32,7 +33,7 @@ public class OrganizationManger{
     /**更新时间*/
     private Date updateTime;
 
-    /**组织状态 100审核通过 103 待审核 104审核不通过 110禁用*/
+    /**组织状态 100 审核通过 103 待审核 104审核不通过 110禁用*/
     private Integer status;
 
 
@@ -44,11 +45,11 @@ public class OrganizationManger{
         this.organizeName = organizeName;
     }
 
-    public String getLocationAddress() {
+    public String[] getLocationAddress() {
         return locationAddress;
     }
 
-    public void setLocationAddress(String locationAddress) {
+    public void setLocationAddress(String[] locationAddress) {
         this.locationAddress = locationAddress;
     }
 
@@ -106,7 +107,7 @@ public class OrganizationManger{
                 "organizeId='" + organizeId + '\'' +
                 ", organizeName='" + organizeName + '\'' +
                 ", organizeEmail='" + organizeEmail + '\'' +
-                ", locationAddress='" + locationAddress + '\'' +
+                ", locationAddress=" + Arrays.toString(locationAddress) +
                 ", detailAddress='" + detailAddress + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +

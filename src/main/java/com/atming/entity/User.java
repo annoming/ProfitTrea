@@ -43,9 +43,13 @@ public class User {
 
     /**邮箱*/
     private String email;
+
+    /**用户状态*/
     private Integer status;
     private Date createTime;
     private Date updateTime;
+
+    /**角色类型*/
     private int roleType;
 
     public String getUserId() {
