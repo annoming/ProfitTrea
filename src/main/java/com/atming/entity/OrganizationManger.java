@@ -26,28 +26,13 @@ public class OrganizationManger{
     /**详细地址*/
     private String detailAddress;
 
-    /**组织性质：101 学校 102 企业 103 个人*/
-    private int organizeType;
-
-    /**用户名*/
-    private String userName;
-
-    /**密码*/
-    private String password;
-
-    /**密码盐*/
-    private String salt;
-
-    /**头像路径*/
-    private String avatar;
-
     /**创建时间*/
     private Date createTime;
 
     /**更新时间*/
     private Date updateTime;
 
-    /**账户状态*/
+    /**组织状态 100审核通过 103 待审核 104审核不通过 110禁用*/
     private Integer status;
 
 
@@ -91,12 +76,28 @@ public class OrganizationManger{
         this.organizeEmail = organizeEmail;
     }
 
-    public int getOrganizeType() {
-        return organizeType;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setOrganizeType(int organizeType) {
-        this.organizeType = organizeType;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
     @Override
@@ -107,7 +108,9 @@ public class OrganizationManger{
                 ", organizeEmail='" + organizeEmail + '\'' +
                 ", locationAddress='" + locationAddress + '\'' +
                 ", detailAddress='" + detailAddress + '\'' +
-                ", organizeType='" + organizeType + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", status=" + status +
                 '}';
     }
 }
