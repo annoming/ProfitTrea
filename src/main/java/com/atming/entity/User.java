@@ -10,12 +10,43 @@ import java.util.Date;
  * @Time: 23:45
  * @Description
  */
-public class User extends OrganizationManger{
+public class User {
     /**用户编号*/
     private String userId;
 
-    /**用户真实姓名*/
+    /**用户名*/
+    private String userName;
+
+    /**密码*/
+    private String password;
+
+    /**密码盐*/
+    private String salt;
+
+    /**真实姓名*/
     private String realName;
+
+    /**组织编号*/
+    private String organization;
+
+    /**学号*/
+    private String studentNumber;
+
+    /**专业*/
+    private String major;
+
+    /**班级*/
+    private String grade;
+
+    /**头像路径*/
+    private String avatar;
+
+    /**邮箱*/
+    private String email;
+    private Integer status;
+    private Date createTime;
+    private Date updateTime;
+    private int roleType;
 
     public String getUserId() {
         return userId;
@@ -23,6 +54,30 @@ public class User extends OrganizationManger{
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getRealName() {
@@ -33,71 +88,104 @@ public class User extends OrganizationManger{
         this.realName = realName;
     }
 
-    @Override
-    public String getOrganizeName() {
-        return super.getOrganizeName();
+    public String getAvatar() {
+        return avatar;
     }
 
-    @Override
-    public void setOrganizeName(String organizeName) {
-        super.setOrganizeName(organizeName);
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
-    @Override
-    public String getLocationAddress() {
-        return super.getLocationAddress();
+    public String getEmail() {
+        return email;
     }
 
-    @Override
-    public void setLocationAddress(String locationAddress) {
-        super.setLocationAddress(locationAddress);
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    @Override
-    public String getDetailAddress() {
-        return super.getDetailAddress();
+    public Integer getStatus() {
+        return status;
     }
 
-    @Override
-    public void setDetailAddress(String detailAddress) {
-        super.setDetailAddress(detailAddress);
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    @Override
-    public String getOrganizeId() {
-        return super.getOrganizeId();
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    @Override
-    public void setOrganizeId(String organizeId) {
-        super.setOrganizeId(organizeId);
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    @Override
-    public String getOrganizeEmail() {
-        return super.getOrganizeEmail();
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    @Override
-    public void setOrganizeEmail(String organizeEmail) {
-        super.setOrganizeEmail(organizeEmail);
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
-    @Override
-    public int getOrganizeType() {
-        return super.getOrganizeType();
+    public String getOrganization() {
+        return organization;
     }
 
-    @Override
-    public void setOrganizeType(int organizeType) {
-        super.setOrganizeType(organizeType);
+    public void setOrganization(String organization) {
+        this.organization = organization;
+    }
+
+    public String getStudentNumber() {
+        return studentNumber;
+    }
+
+    public void setStudentNumber(String studentNumber) {
+        this.studentNumber = studentNumber;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public int getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(int roleType) {
+        this.roleType = roleType;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
                 ", realName='" + realName + '\'' +
+                ", organization='" + organization + '\'' +
+                ", studentNumber='" + studentNumber + '\'' +
+                ", major='" + major + '\'' +
+                ", grade='" + grade + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", email='" + email + '\'' +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", roleType=" + roleType +
                 '}';
     }
 }

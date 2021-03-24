@@ -6,10 +6,7 @@ import com.atming.utils.PasswordSaltUtil;
 import com.atming.utils.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,8 +26,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping(value = "/login")
-    public Result login(@RequestParam(name="username")String userName,@RequestParam(name="password")String password){
-        User user = new User(userName,password);
+    public Result login(@RequestBody User user){
         User loginUser = userService.getLogin(user);
         if(loginUser == null){
             return Result.fail("用户不存在");
