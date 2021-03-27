@@ -22,7 +22,7 @@ public class OrganizationManger{
     private String organizeEmail;
 
     /**所在地区*/
-    private String[] locationAddress;
+    private String locationAddress;
 
     /**详细地址*/
     private String detailAddress;
@@ -45,11 +45,11 @@ public class OrganizationManger{
         this.organizeName = organizeName;
     }
 
-    public String[] getLocationAddress() {
+    public String getLocationAddress() {
         return locationAddress;
     }
 
-    public void setLocationAddress(String[] locationAddress) {
+    public void setLocationAddress(String locationAddress) {
         this.locationAddress = locationAddress;
     }
 
@@ -107,7 +107,7 @@ public class OrganizationManger{
                 "organizeId='" + organizeId + '\'' +
                 ", organizeName='" + organizeName + '\'' +
                 ", organizeEmail='" + organizeEmail + '\'' +
-                ", locationAddress=" + Arrays.toString(locationAddress) +
+                ", locationAddress='" + locationAddress + '\'' +
                 ", detailAddress='" + detailAddress + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
