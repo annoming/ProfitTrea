@@ -13,19 +13,19 @@ import java.util.Date;
  */
 public class OrganizationManger{
     /**组织编号*/
-    private String organizeId;
+    private String organizationId;
 
     /**组织名称*/
     private String organizeName;
 
     /**组织邮箱*/
-    private String organizeEmail;
+    private String email;
 
     /**所在地区*/
-    private String locationAddress;
+    private String location;
 
     /**详细地址*/
-    private String detailAddress;
+    private String address;
 
     /**创建时间*/
     private Date createTime;
@@ -36,6 +36,13 @@ public class OrganizationManger{
     /**组织状态 100 审核通过 103 待审核 104审核不通过 110禁用*/
     private Integer status;
 
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
 
     public String getOrganizeName() {
         return organizeName;
@@ -45,36 +52,28 @@ public class OrganizationManger{
         this.organizeName = organizeName;
     }
 
-    public String getLocationAddress() {
-        return locationAddress;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLocationAddress(String locationAddress) {
-        this.locationAddress = locationAddress;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getDetailAddress() {
-        return detailAddress;
+    public String getLocation() {
+        return location;
     }
 
-    public void setDetailAddress(String detailAddress) {
-        this.detailAddress = detailAddress;
+    public void setLocation(String location) {
+        this.location = location;
     }
 
-    public String getOrganizeId() {
-        return organizeId;
+    public String getAddress() {
+        return address;
     }
 
-    public void setOrganizeId(String organizeId) {
-        this.organizeId = organizeId;
-    }
-
-    public String getOrganizeEmail() {
-        return organizeEmail;
-    }
-
-    public void setOrganizeEmail(String organizeEmail) {
-        this.organizeEmail = organizeEmail;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Date getCreateTime() {
@@ -104,11 +103,11 @@ public class OrganizationManger{
     @Override
     public String toString() {
         return "OrganizationManger{" +
-                "organizeId='" + organizeId + '\'' +
+                "organizationId='" + organizationId + '\'' +
                 ", organizeName='" + organizeName + '\'' +
-                ", organizeEmail='" + organizeEmail + '\'' +
-                ", locationAddress='" + locationAddress + '\'' +
-                ", detailAddress='" + detailAddress + '\'' +
+                ", email='" + email + '\'' +
+                ", location='" + location + '\'' +
+                ", address='" + address + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", status=" + status +
