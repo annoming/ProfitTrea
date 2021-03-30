@@ -2,8 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
     <context:component-scan base-package="com.atming"/>
     <!--加载数据库配置文件-->
     <context:property-placeholder location="classpath:jdbc.properties"/>
@@ -47,7 +47,7 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- DAO接口所在包名，Spring会自动查找其下的类 -->
         <property name="basePackage" value="com.atming.mapper" />
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -55,4 +55,58 @@
     </bean>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
+    <!-- 启用注解驱动的定时任务 -->
+    <task:annotation-driven scheduler="myScheduler"/>
+    <!-- 配置定时任务连接池 -->
+    <task:scheduler id="myScheduler" pool-size="5"/>
+
+    <!--线程池-->
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <!-- 核心线程数 -->
+        <property name="corePoolSize" value="5" />
+
+        <!-- 线程池维护线程所允许的空闲时间，默认为60s -->
+        <property name="keepAliveSeconds" value="200" />
+        <!-- 最大线程数 -->
+        <property name="maxPoolSize" value="10" />
+
+        <!-- 队列最大长度 -->
+        <property name="queueCapacity" value="20" />
+        <!--线程池满执行策略CallerRunsPolicy，应该是由执行线程池的那个线程去执行超出的一个线程，剩余超出的线程进入阻塞状态，
+        当主线程执行完毕，尝试将之前超出的线程添加进等待队列，如果没有的话就再由主线程执行一个，如此往复-->
+        <!--DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）-->
+        <!--DiscardPolicy：也是丢弃任务，但是不抛出异常。-->
+        <!--AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。-->
+        <property name="rejectedExecutionHandler">
+            <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+        </property>
+    </bean>
+
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.qq.com"></property>
+        <!-- 或许你可以用465端口，默认的25不适合 -->
+        <property name="port" value="587"/>
+        <property name="protocol" value="smtp"/>
+        <property name="username" value="2660202918@qq.com"></property>
+        <!-- 这里的是你在QQ邮箱发送开通SMTP短信后，获取的授权码 -->
+        <property name="password" value="ohizktcbroszeced"></property>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.timeout">25000</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="to" value="annoming_2899@163.com" />
+        <property name="subject" value="欢迎进入Profittrea" />
+    </bean>
+
+    <bean id="timeMail" class="com.atming.utils.TimerUtil">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="templateMail" ref="templateMessage"/>
+    </bean>
 </beans>
