@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atming.mapper.ManagerMapper">
+    <select id="selectManagerByEmail" resultType="com.atming.entity.User">
+        select * from profittrea_user where email = #{email};
+    </select>
+
+    <select id="selectManagers" resultType="com.atming.entity.User">
+        select * from profittrea_user
+    </select>
+
+    <!--<select id="selectId" resultType="String">
+        select organization_id from profittrea_organization order by organization_id desc limit 0,1
+    </select>-->
+
+    <insert id="insertUser" parameterType="com.atming.entity.User">
+        insert into profittrea_user(user_id,user_name,password,salt,real_name,organization,student_number,major,grade,email,status,create_time,update_time,role_type)
+        values(#{userId},#{userName},#{password},#{salt},#{realName},#{organization},#{studentNumber},#{major},#{grade},#{email},#{status},#{createTime},#{updateTime},#{roleType})
+    </insert>
+
+    <delete id="deleteManager" parameterType="String">
+        delete from profittrea_user where user_id = #{userId}
+    </delete>
+</mapper>
