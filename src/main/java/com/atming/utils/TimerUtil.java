@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -17,25 +16,21 @@ import java.util.concurrent.TimeUnit;
 
 public class TimerUtil {
 
-
-
     @Autowired
     private CronMapper cronMapper;
-    private JavaMailSenderImpl mailSender;
-    private SimpleMailMessage templateMail;
+
     private static Logger tLogger = Logger.getLogger(TimeUnit.class); //日志记录
-
-    public void setMailSender(JavaMailSenderImpl mailSender) {
-        this.mailSender = mailSender;
-    }
-
-    public void setTemplateMail(SimpleMailMessage templateMail) {
-        this.templateMail = templateMail;
-    }
+    private static String shell_path = "/Users/mingrui/PycharmProjects/pythonProject/login.py";
 
     @Bean
-    public String getCronValue(){
+    public String getCronValue() {
         String cron = cronMapper.findById("PRJ-00001");
+        System.out.println(cron);
+        return cron;
+    }
+
+    public String getNewBlockCron(){
+        String cron = cronMapper.findById("PRJ-00002");
         System.out.println(cron);
         return cron;
     }
@@ -44,13 +39,13 @@ public class TimerUtil {
      * 定时发送邮件任务
      */
     @Scheduled(cron = "#{@getCronValue}")
-    public void run(){
+    public void run() {
         tLogger.info("==========mailSend job start===========");
         try {
-            if(!mailSend()) {
+            /*if (!mailSend()) {
                 tLogger.error("send mail error");
-            }
-        }catch (Exception e){
+            }*/
+        } catch (Exception e) {
             e.printStackTrace();
             tLogger.error("send error");
         }
@@ -58,37 +53,25 @@ public class TimerUtil {
     }
 
 
-    @Scheduled(cron = "")
-    public void excute(){
+    /*@Scheduled(cron = "* * * * * ?")
+    public void excute() {
+        Process pr = null;
         tLogger.info("==========getData job start===========");
-        System.out.println("测试爬取数据");
+        System.out.println("============开始爬取新三板数据=============");
         try {
-            if (!getDatas()) {
-                tLogger.info("get data fail");
-            }
+            pr = Runtime.getRuntime().exec("/Users/mingrui/PycharmProjects/pythonProject/venv/bin/python /Users/mingrui/PycharmProjects/pythonProject/login.py");
+            pr.waitFor();
         } catch (Exception e) {
             e.printStackTrace();
-            tLogger.error("get data job error");
+            tLogger.error("爬取数据异常");
+        }finally{
+            if (pr != null) {
+                pr.destroy();
+            }
         }
-        tLogger.info("get data success");
-    }
+        System.out.println("================爬取新三板数据成功===============");
+        tLogger.info("爬取数据成功");
+    }*/
 
-    /**
-     * 发送邮件
-     * @return
-     */
-    private boolean mailSend() {
-        SimpleMailMessage mail = new SimpleMailMessage();
-        mail.setFrom(mailSender.getUsername());
-        mail.setTo(templateMail.getTo());
-        mail.setSubject(templateMail.getSubject());
-        mail.setText("测试发送邮件");
-        mailSender.send(mail);
-        return true;
-    }
 
-    private boolean getDatas(){
-
-        return  true;
-    }
 }
