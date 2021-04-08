@@ -43,7 +43,7 @@ public class Stock {
     /**最低*/
     private String lowest;
 
-    /**证券类型 STOCK表示股票   FOUNDATION  表示基金    BOND表示债券  FOREX表示*/
+    /**证券类型 STOCK表示股票   FOUNDATION表示基金    BOND表示债券  FOREX表示外汇  */
     private String stockType;
 
 
