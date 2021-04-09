@@ -49,8 +49,16 @@ public class User {
     private Date createTime;
     private Date updateTime;
 
-    /**角色类型*/
+    /**角色类型 100 超级管理员    101  组织管理员   102   个体管理员     103  平台管理员   104  普通管理员*/
     private int roleType;
+
+    public  User(){
+
+    }
+
+    public User(String userName) {
+        this.userName = userName;
+    }
 
     public String getUserId() {
         return userId;

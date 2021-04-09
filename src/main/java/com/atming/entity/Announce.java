@@ -23,7 +23,7 @@ public class Announce {
     private String pdfUrl;
 
     /**日期*/
-    private String date;
+    private String announceDate;
 
     public Integer getId() {
         return id;
@@ -65,12 +65,12 @@ public class Announce {
         this.pdfUrl = pdfUrl;
     }
 
-    public String getDate() {
-        return date;
+    public String getAnnounceDate() {
+        return announceDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setAnnounceDate(String announceDate) {
+        this.announceDate = announceDate;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class Announce {
                 ", announceName='" + announceName + '\'' +
                 ", announceTitle='" + announceTitle + '\'' +
                 ", pdfUrl='" + pdfUrl + '\'' +
-                ", date='" + date + '\'' +
+                ", announceDate='" + announceDate + '\'' +
                 '}';
     }
 }
