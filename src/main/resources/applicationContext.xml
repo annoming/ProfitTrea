@@ -101,11 +101,11 @@
     </bean>
 
     <bean id="templateMessage" class="org.springframework.mail.SimpleMailMessage">
-        <property name="to" value="annoming_2899@163.com" />
         <property name="subject" value="欢迎进入Profittrea" />
     </bean>
 
-    <bean id="timeMail" class="com.atming.utils.TimerUtil">
+
+    <bean id="emailUtil" class="com.atming.utils.EmailUtil">
         <property name="mailSender" ref="mailSender"/>
         <property name="templateMail" ref="templateMessage"/>
     </bean>
