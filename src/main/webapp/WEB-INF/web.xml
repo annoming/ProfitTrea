@@ -72,12 +72,12 @@
         <init-param>
             <!--服务端支持的请求方法(*表示全部均可)-->
             <param-name>cors.supportedMethods</param-name>
-            <param-value>GET, POST, HEAD, PUT, DELETE</param-value>
+            <param-value>GET, POST, HEAD, PUT, DELETE,OPTIONS</param-value>
         </init-param>
         <init-param>
             <!--允许返回给跨域请求的响应头列表-->
             <param-name>cors.supportedHeaders</param-name>
-            <param-value>Accept, Origin, X-Requested-With, Content-Type, Last-Modified</param-value>
+            <param-value>Accept, Origin, X-Requested-With, Content-Type, Last-Modified ,Authorization ,token</param-value>
         </init-param>
         <init-param>
             <!-- 允许返回给跨域请求的响应头列表-->
@@ -96,5 +96,14 @@
         <filter-name>CORS</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <!--<filter>
+        <filter-name>cors</filter-name>
+        <filter-class>com.atming.filter.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>cors</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>-->
 </web-app>
 
