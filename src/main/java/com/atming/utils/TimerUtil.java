@@ -29,6 +29,7 @@ public class TimerUtil {
         return cron;
     }
 
+    @Bean
     public String getNewBlockCron(){
         String cron = cronMapper.findById("PRJ-00002");
         System.out.println(cron);
@@ -53,7 +54,10 @@ public class TimerUtil {
     }
 
 
-    /*@Scheduled(cron = "* * * * * ?")
+    /**
+     * 爬取新三板数据
+     */
+    @Scheduled(cron = "#{@getNewBlockCron}")
     public void excute() {
         Process pr = null;
         tLogger.info("==========getData job start===========");
@@ -71,7 +75,7 @@ public class TimerUtil {
         }
         System.out.println("================爬取新三板数据成功===============");
         tLogger.info("爬取数据成功");
-    }*/
+    }
 
 
 }

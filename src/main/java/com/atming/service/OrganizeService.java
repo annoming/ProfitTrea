@@ -18,6 +18,8 @@ public interface OrganizeService {
      */
     OrganizationManger isExists(OrganizationManger organize);
 
+    OrganizationManger findOrganizeById(String organizationId);
+
     /**
      * 查询组织信息
      * @return
@@ -31,9 +33,15 @@ public interface OrganizeService {
     int addOneOrganize(OrganizationManger organize);
 
     int deleteById(String organizeId);
+
+    int deleteUserByOrganizeId(String organizeId);
     /***
      * 获取组织id
      * @return
      */
     String getOrganizeId();
+
+    List selectCityList();
+
+    List selectCountryByName(String cityName);
 }

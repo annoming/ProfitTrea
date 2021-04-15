@@ -4,7 +4,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atming.mapper.DataMapper">
     <select id="getStockData" resultType="com.atming.entity.Stock">
-        select * from stock where stock_type = #{stockType} order by stock_id limit 0,12;
+        select * from stock where stock_type = 'STOCK' order by stock_id limit 0,12;
+    </select>
+
+    <select id="getFoundationData" resultType="com.atming.entity.Stock">
+        select * from stock where stock_type = 'FOUNDATION' order by stock_id limit 0,12;
+    </select>
+
+    <select id="getBondData" resultType="com.atming.entity.Stock">
+        select * from stock where stock_type = 'BOND' order by stock_id limit 0,12;
+    </select>
+
+    <select id="getForexData" resultType="com.atming.entity.Stock">
+        select * from stock where stock_type = 'FOREX' order by stock_id limit 0,12;
     </select>
 
 </mapper>

@@ -36,6 +36,9 @@ public class OrganizationManger{
     /**组织状态 100 审核通过 103 待审核 104审核不通过 110禁用*/
     private Integer status;
 
+    /**组织类型 1 个人 2 团体*/
+    private String type;
+
     public String getOrganizationId() {
         return organizationId;
     }
@@ -100,6 +103,14 @@ public class OrganizationManger{
         this.status = status;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "OrganizationManger{" +
@@ -111,6 +122,7 @@ public class OrganizationManger{
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", status=" + status +
+                ", type='" + type + '\'' +
                 '}';
     }
 }

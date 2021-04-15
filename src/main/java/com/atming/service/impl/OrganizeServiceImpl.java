@@ -26,6 +26,11 @@ public class OrganizeServiceImpl implements OrganizeService {
     }
 
     @Override
+    public OrganizationManger findOrganizeById(String organizationId) {
+        return organizeMapper.selectByID(organizationId);
+    }
+
+    @Override
     public List<OrganizationManger> getAll() {
         return organizeMapper.selectAll();
     }
@@ -41,7 +46,22 @@ public class OrganizeServiceImpl implements OrganizeService {
     }
 
     @Override
+    public int deleteUserByOrganizeId(String organizeId) {
+        return organizeMapper.deleteUser(organizeId);
+    }
+
+    @Override
     public String getOrganizeId() {
         return organizeMapper.selectId();
+    }
+
+    @Override
+    public List selectCityList() {
+        return organizeMapper.getCityList();
+    }
+
+    @Override
+    public List selectCountryByName(String cityName) {
+        return organizeMapper.getCountryList(cityName);
     }
 }

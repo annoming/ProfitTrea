@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atming.mapper.TransactionMapper">
+    <select id="selectStock" resultType="com.atming.entity.Stock">
+        select * from stock where stock_type = 'STOCK' ORDER BY price_limit DESC limit 0,7
+    </select>
+
+    <select id="selectBuyStock" resultType="com.atming.entity.Stock">
+        select * from stock where stock_type = 'STOCK' and stock_code like "%"#{stockCode}"%" order by price_limit DESC limit 0,8
+    </select>
+
+    <select id="selectShareById" resultType="com.atming.entity.Share">
+        select * from share where user_id = #{userId}
+    </select>
+
+    <select id="selectMarketInfo" resultType="com.atming.entity.Market">
+        select * from market where organize_id = #{organizeId}
+    </select>
+
+    <select id="selectRevokeByUserId" resultType="com.atming.entity.RevokeList">
+        select * from revoke_list where user_id = #{userId}
+    </select>
+
+    <select id="selectEntrustByUserId" resultType="com.atming.entity.TodayEntrust">
+        select * from today_entrust where user_id = #{userId}
+    </select>
+
+    <select id="selectFundByUserId" resultType="com.atming.entity.Fund">
+        select * from fund where user_id = #{userId}
+    </select>
+
+    <select id="selectTodayTransaction" resultType="com.atming.entity.TodayTransaction">
+        select * from today_transaction where user_id = #{0} and transaction_date = #{1}
+    </select>
+
+    <select id="selectTransaction" resultType="com.atming.entity.TodayTransaction">
+        select * from today_transaction where user_id = #{userId}
+    </select>
+
+    <insert id="insertRevoke" parameterType="com.atming.entity.RevokeList">
+        insert into revoke_list(id,user_id,stock_code,stock_name,entrust_price,entrust_number,transaction_price,transaction_number,date,operation)
+        values(#{id},#{userId},#{stockCode},#{stockName},#{entrustPrice},#{entrustNumber},#{transactionPrice},#{transactionNumber},#{date},#{operation})
+    </insert>
+
+    <insert id="insertTodayEntrust" parameterType="com.atming.entity.TodayEntrust">
+        insert into today_entrust(entrust_id,user_id,entrust_number,entrust_price,transaction_number,transaction_price,entrust_date,entrust_time,entrust_type,description,operation,stock_code,stock_name)
+        values(#{entrustId},#{userId},#{entrustNumber},#{entrustPrice},#{transactionNumber},#{transactionPrice},#{entrustDate},#{entrustTime},#{entrustType},#{description},#{operation},#{stockCode},#{stockName})
+    </insert>
+
+    <insert id="insertTodayTransaction" parameterType="com.atming.entity.TodayTransaction">
+        insert into today_transaction(transaction_id,user_id,transaction_number,transaction_price,transaction_amount,transaction_date,operation,revoke_number,stock_code,stock_name)
+        values(#{transactionId},#{userId},#{transactionNumber},#{transactionPrice},#{transactionAmount},#{transactionDate},#{operation},#{revokeNumber},#{stockCode},#{stockName})
+    </insert>
+
+    <insert id="insertTodayFund" parameterType="com.atming.entity.Fund">
+        insert into fund(user_id,stock_code,stock_name,stock_number,useful_number,freeze_number,cost_price,market_price,market_value,float_profit,profit_ratio)
+        values(#{userId},#{stockCode},#{stockName},#{stockNumber},#{usefulNumber},#{freezeNumber},#{costPrice},#{marketPrice},#{marketValue},#{floatProfit},#{profitRatio})
+    </insert>
+
+</mapper>

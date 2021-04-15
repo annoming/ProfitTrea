@@ -19,9 +19,17 @@ public interface ManagerMapper {
      */
     User selectManagerByEmail(String email);
 
+    String selectOrganizeByEmail(String email);
+
     int insertUser(User user);
 
-    List selectManagers();
+    List selectUsers(String organization);
+
+    List selectManagers(String organization);
+
+    List selectAll();
 
     int deleteManager(String userId);
+
+    User findById(String userId);
 }

@@ -7,13 +7,21 @@
         select * from profittrea_user where email = #{email};
     </select>
 
+    <select id="selectUsers" resultType="com.atming.entity.User">
+        select * from profittrea_user where organization = #{organization} and role_type = 104
+    </select>
+
     <select id="selectManagers" resultType="com.atming.entity.User">
+        select * from profittrea_user where organization = #{organization}
+    </select>
+
+    <select id="selectAll" resultType="com.atming.entity.User">
         select * from profittrea_user
     </select>
 
-    <!--<select id="selectId" resultType="String">
-        select organization_id from profittrea_organization order by organization_id desc limit 0,1
-    </select>-->
+    <select id="selectOrganizeByEmail" resultType="String">
+        select organization from profittrea_user where email = #{email}
+    </select>
 
     <insert id="insertUser" parameterType="com.atming.entity.User">
         insert into profittrea_user(user_id,user_name,password,salt,real_name,organization,student_number,major,grade,email,status,create_time,update_time,role_type)
@@ -23,4 +31,8 @@
     <delete id="deleteManager" parameterType="String">
         delete from profittrea_user where user_id = #{userId}
     </delete>
+
+    <select id="findById" resultType="com.atming.entity.User">
+        select * from profittrea_user where user_id = #{userId};
+    </select>
 </mapper>

@@ -9,6 +9,12 @@ import java.util.List;
 
 public interface DataMapper {
 
-    List getStockData(String stockType);
+    List getStockData();
+
+    List getFoundationData();
+
+    List getBondData();
+
+    List getForexData();
 
 }

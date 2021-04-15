@@ -7,8 +7,12 @@
         select * from profittrea_organization where email = #{email};
     </select>
 
+    <select id="selectByID" resultType="com.atming.entity.OrganizationManger">
+        select * from profittrea_organization where organization_id = #{organizationId}
+    </select>
+
     <select id="selectAll" resultType="com.atming.entity.OrganizationManger">
-        select * from profittrea_organization
+        select * from profittrea_organization where organize_name != 'administrator'
     </select>
 
     <select id="selectId" resultType="String">
@@ -16,11 +20,25 @@
     </select>
 
     <insert id="insertOrganize" parameterType="com.atming.entity.OrganizationManger">
-        insert into profittrea_organization(organization_id,organize_name,email,location,address,status,create_time,update_time)
-        values(#{organizationId},#{organizeName},#{email},#{location},#{address},#{status},#{createTime},#{updateTime})
+        insert into profittrea_organization(organization_id,organize_name,email,location,address,status,type,create_time,update_time)
+        values(#{organizationId},#{organizeName},#{email},#{location},#{address},#{status},#{type},#{createTime},#{updateTime})
     </insert>
 
     <delete id="deleteOne" parameterType="String">
         delete from profittrea_organization where organization_id = #{organizeId}
     </delete>
+
+    <delete id="deleteUser" parameterType="String">
+        delete from profittrea_user where organization = #{organizeId}
+    </delete>
+
+    <select id="getCityList" resultType="String">
+        select distinct(city_name) from city
+    </select>
+
+    <select id="getCountryList" parameterType="String" resultType="String">
+        select country from city where city_name = #{cityName}
+    </select>
+
+
 </mapper>

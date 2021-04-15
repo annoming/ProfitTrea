@@ -18,6 +18,8 @@ public interface OrganizeMapper {
      */
     OrganizationManger selectByEmail(String email);
 
+    OrganizationManger selectByID(String organizationId);
+
     List selectAll();
     /**
      * 插入组织信息
@@ -33,4 +35,10 @@ public interface OrganizeMapper {
     String selectId();
 
     int deleteOne(String organizeId);
+
+    int deleteUser(String organizeId);
+
+    List getCityList();
+
+    List getCountryList(String cityName);
 }

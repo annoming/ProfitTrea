@@ -6,4 +6,24 @@
     <select id="findOne" resultType="com.atming.entity.User">
         select * from profittrea_user where user_name = #{userName};
     </select>
+
+    <update id="updateUserByUserId" parameterType="com.atming.entity.User">
+        update profittrea_user
+        <set>
+            <if test="password != null">password=#{password}</if>
+        </set>
+        where user_Id=#{userId}
+    </update>
+
+    <update id="updateMarketByOrganize">
+        update market
+        <set>
+            morningStart=#{1},
+            morningEnd=#{2},
+            afternoonStart=#{3},
+            afternoonEnd=#{4}
+        </set>
+        where organize_id=#{0}
+    </update>
+
 </mapper>

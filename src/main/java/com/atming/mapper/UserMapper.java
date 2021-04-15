@@ -1,7 +1,6 @@
 package com.atming.mapper;
 
 import com.atming.entity.User;
-import org.springframework.stereotype.Repository;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,4 +12,10 @@ import org.springframework.stereotype.Repository;
  */
 public interface UserMapper {
     User findOne(String userName);
+
+    User findById(String userId);
+
+    int updateUserByUserId(User user);
+
+    int updateMarketByOrganize(String organizeId, String startMorning, String endMorning, String startAfternoon, String endAfternoon);
 }

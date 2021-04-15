@@ -70,16 +70,34 @@ public class DataController {
 
     private boolean dealData() {
         try{
-            if ("QUERY||DATA".equals(operate)) {
-                String stockType = stockInfo.getStockType();
-                List<Stock> list = dataService.findStock(stockType);
-                if (list != null) {
-                    message = Result.success(list);
+            if ("QUERY||STOCK".equals(operate)) {
+                List<Stock> stocks = dataService.findStock();
+                if (stocks != null) {
+                    message = Result.success(stocks);
                 } else {
                     message = Result.fail("数据异常");
                 }
             }else if("QUERY||FOUNDATION".equals(operate)){
-
+                List<Stock> fond = dataService.findFoundation();
+                if (fond != null) {
+                    message = Result.success(fond);
+                } else {
+                    message = Result.fail("数据异常");
+                }
+            }else if("QUERY||BOND".equals(operate)){
+                List<Stock> bond = dataService.findBond();
+                if (bond != null) {
+                    message = Result.success(bond);
+                } else {
+                    message = Result.fail("数据异常");
+                }
+            } else if("QUERY||FOREX".equals(operate)){
+                List<Stock> forex = dataService.findForex();
+                if (forex != null) {
+                    message = Result.success(forex);
+                } else {
+                    message = Result.fail("数据异常");
+                }
             }
         }catch (Exception e){
             message = Result.fail("后台处理数据异常");

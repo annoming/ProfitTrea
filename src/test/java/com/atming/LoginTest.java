@@ -1,7 +1,9 @@
 package com.atming;
 
 import com.atming.entity.User;
+import com.atming.mapper.OrganizeMapper;
 import com.atming.mapper.UserMapper;
+import com.atming.utils.CreateIdUtil;
 import com.atming.utils.PasswordSaltUtil;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +29,19 @@ public class LoginTest extends ParentTest{
         boolean valid = passwordSalt.isPasswordValid(user.getPassword(), "231650");
         System.out.println(user);
         System.out.println(valid);
+    }
+
+
+    @Autowired
+    private OrganizeMapper organizeMapper;
+    @Test
+    public void testCreateId(){
+        CreateIdUtil.createId("organization");
+    }
+
+    @Test
+    public void testStringToInt() {
+        String str = "0000100";
+        System.out.println(Integer.parseInt(str));
     }
 }

@@ -34,6 +34,7 @@ public class LoginController {
     private PermissionService permissionService;
     @Autowired
     private RoleService roleService;
+    private Result message;
 
     @ResponseBody
     @PostMapping(value = "/login")
@@ -63,8 +64,15 @@ public class LoginController {
         }
     }
 
-    @DeleteMapping(value = "/logout.do")
-    public Result logout(){
-        return Result.fail("shibai");
+    @PostMapping(value = "/logout.do")
+    @ResponseBody
+    public Result logout(@RequestBody User user){
+        String token = user.getUserName();
+        if (token != null) {
+            message =  Result.success("token未失效,请删除token");
+        }else{
+            message = Result.fail("token已经失效");
+        }
+        return  message;
     }
 }

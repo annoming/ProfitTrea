@@ -25,4 +25,14 @@ public class UserServiceImpl implements UserService{
         String userName = user.getUserName();
         return userMapper.findOne(userName);
     }
+
+    @Override
+    public int updateUserInfo(User user) {
+        return userMapper.updateUserByUserId(user);
+    }
+
+    @Override
+    public int updateMarketTime(String organizeId, String startMorning, String endMorning, String startAfternoon, String endAfternoon) {
+        return userMapper.updateMarketByOrganize(organizeId,startMorning,endMorning,startAfternoon,endAfternoon);
+    }
 }

@@ -21,8 +21,23 @@ public class DataServiceImpl implements DataService {
     private DataMapper dataMapper;
 
     @Override
-    public List<Stock> findStock(String stockType) {
-        return dataMapper.getStockData(stockType);
+    public List<Stock> findStock() {
+        return dataMapper.getStockData();
+    }
+
+    @Override
+    public List<Stock> findFoundation() {
+        return dataMapper.getFoundationData();
+    }
+
+    @Override
+    public List<Stock> findBond() {
+        return dataMapper.getBondData();
+    }
+
+    @Override
+    public List<Stock> findForex() {
+        return dataMapper.getForexData();
     }
 
 }

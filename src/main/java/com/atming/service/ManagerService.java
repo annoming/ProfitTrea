@@ -13,9 +13,17 @@ public interface ManagerService {
 
     User findOneByEmail(User user);
 
+    String findOrganizeByEmail(String email);
+
     int insertUser(User user);
+
+    List<User> findAllUser(String organization);
+
+    List<User> findAll(String organization);
 
     List<User> findAll();
 
     int deleteManagerById(String userId);
+
+    User getUserById(String userId);
 }

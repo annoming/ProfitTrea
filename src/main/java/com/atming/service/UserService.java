@@ -18,4 +18,11 @@ public interface UserService{
      * @return User
      */
     User getLogin(User user);
+
+    int updateUserInfo(User user);
+
+    int updateMarketTime(String organizeId, String startMorning, String endMorning, String startAfternoon, String endAfternoon);
+
+
+
 }

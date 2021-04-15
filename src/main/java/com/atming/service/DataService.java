@@ -11,6 +11,13 @@ import java.util.List;
 
 public interface DataService {
 
-    List<Stock> findStock(String stockType);
+    List<Stock> findStock();
+
+    List<Stock> findFoundation();
+
+    List<Stock> findBond();
+
+    List<Stock> findForex();
+
 
 }

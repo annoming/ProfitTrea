@@ -25,17 +25,39 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
+    public String findOrganizeByEmail(String email) {
+        return managerMapper.selectOrganizeByEmail(email);
+    }
+
+    @Override
     public int insertUser(User user) {
         return managerMapper.insertUser(user);
     }
 
     @Override
+    public List<User> findAllUser(String organization) {
+        return managerMapper.selectUsers(organization);
+    }
+
+    @Override
+    public List<User> findAll(String organization) {
+        return managerMapper.selectManagers(organization);
+    }
+
+    @Override
     public List<User> findAll() {
-        return managerMapper.selectManagers();
+        return managerMapper.selectAll();
     }
 
     @Override
     public int deleteManagerById(String userId) {
         return managerMapper.deleteManager(userId);
     }
+
+    @Override
+    public User getUserById(String userId) {
+        return managerMapper.findById(userId);
+    }
+
+
 }

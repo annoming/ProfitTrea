@@ -99,7 +99,7 @@
 
     <!--<filter>
         <filter-name>cors</filter-name>
-        <filter-class>com.atming.filter.CorsFilter</filter-class>
+        <filter-class>com.atming.filter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>cors</filter-name>
