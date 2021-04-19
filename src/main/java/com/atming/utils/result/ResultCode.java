@@ -17,7 +17,7 @@ public enum ResultCode {
      */
     SUCCESS(100,"操作成功"),
     FAIL(103,"响应失败"),
-    VALIDATE_FAILED(102,"参数校验失败"),
+    VALIDATE_FAILED(102,"token失效"),
     ERROR(104,"未知错误");
 
     private Integer code;

@@ -53,6 +53,30 @@ public final class Result implements Serializable {
         return result;
     }
 
+    public static Result refuse(String msg) {
+        return refuse(ResultCode.VALIDATE_FAILED.getCode(),msg,null);
+    }
+
+    private static Result refuse(Integer code, String msg,Object data) {
+        Result result = new Result();
+        result.setCode(code);
+        result.setMsg(msg);
+        result.setData(data);
+        return result;
+    }
+
+    public static Result error(String msg) {
+        return error(ResultCode.ERROR.getCode(),msg,null);
+    }
+
+    private static Result error(Integer code, String msg,Object data) {
+        Result result = new Result();
+        result.setCode(code);
+        result.setMsg(msg);
+        result.setData(data);
+        return result;
+    }
+
     /**
      * getter方法一定要设置，否则使用@ResponseBody时返回数据会报错
      * @return Integer
