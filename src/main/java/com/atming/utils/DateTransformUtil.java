@@ -55,14 +55,14 @@ public class DateTransformUtil {
     public static Date transformNowDate(String time) {
         Date now = new Date();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
-        String date = sf.format(now) + " " + time;
+        String date = sf.format(now) + " " + time + ":00";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date day = null;
+        Date nowDay = null;
         try {
-            day = dateFormat.parse(date);
+            nowDay = dateFormat.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return day;
+        return nowDay;
     }
 }
