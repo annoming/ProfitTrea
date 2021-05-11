@@ -77,6 +77,30 @@ public final class Result implements Serializable {
         return result;
     }
 
+    public static Result warning(String msg) {
+        return error(ResultCode.WARNING.getCode(),msg,null);
+    }
+
+    private static Result warning(Integer code, String msg,Object data) {
+        Result result = new Result();
+        result.setCode(code);
+        result.setMsg(msg);
+        result.setData(data);
+        return result;
+    }
+
+    public static Result exit(String msg) {
+        return error(ResultCode.EXIT.getCode(),msg,null);
+    }
+
+    private static Result exit(Integer code, String msg,Object data) {
+        Result result = new Result();
+        result.setCode(code);
+        result.setMsg(msg);
+        result.setData(data);
+        return result;
+    }
+
     /**
      * getter方法一定要设置，否则使用@ResponseBody时返回数据会报错
      * @return Integer

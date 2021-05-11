@@ -18,7 +18,9 @@ public enum ResultCode {
     SUCCESS(100,"操作成功"),
     FAIL(103,"响应失败"),
     VALIDATE_FAILED(102,"token失效"),
-    ERROR(104,"未知错误");
+    ERROR(104,"未知错误"),
+    EXIT(101,"注销token"),
+    WARNING(105,"token未生效");
 
     private Integer code;
     private String msg;
