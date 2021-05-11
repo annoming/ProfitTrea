@@ -1,5 +1,7 @@
 package com.atming.entity;
 
+import java.util.ArrayList;
+
 /**
  * @author annoming
  * @date 2021/4/10 8:46 下午
@@ -34,6 +36,16 @@ public class BuyInfo {
     private String userId;
 
     private String operation;
+
+    private ArrayList revoke;
+
+    public ArrayList getRevoke() {
+        return revoke;
+    }
+
+    public void setRevoke(ArrayList revoke) {
+        this.revoke = revoke;
+    }
 
     public String getStockCode() {
         return stockCode;
