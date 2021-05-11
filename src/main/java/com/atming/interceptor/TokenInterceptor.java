@@ -1,16 +1,19 @@
 package com.atming.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.atming.annotation.PassToken;
 import com.atming.annotation.UserLoginToken;
 import com.atming.entity.User;
 import com.atming.service.UserService;
 import com.atming.utils.TokenUtil;
+import com.atming.utils.result.Result;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -19,7 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * @author annoming
@@ -29,9 +35,14 @@ import java.lang.reflect.Method;
 public class TokenInterceptor implements HandlerInterceptor {
     @Autowired
     UserService userService;
+    private static Result message;
     @Override
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) throws Exception {
-        String token = httpServletRequest.getHeader("token");// 从 http 请求头中取出 token
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object object) {
+        String token = httpServletRequest.getHeader("Authorization");// 从 http 请求头中取出 token
+        httpServletResponse.setHeader("Access-Control-Allow-Origin", "*");
+        httpServletResponse.setHeader("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+        httpServletResponse.setHeader("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+
         // 如果不是映射到方法直接通过
         if(!(object instanceof HandlerMethod)){
             return true;
@@ -49,63 +60,61 @@ public class TokenInterceptor implements HandlerInterceptor {
         if (method.isAnnotationPresent(UserLoginToken.class)) {
             UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
             if (userLoginToken.required()) {
-                // 执行认证
                 if (token == null) {
-                    throw new RuntimeException("无token，请重新登录");
+                    message = Result.error("无token，请重新登录");
+                    sendResponse(httpServletResponse,message);
                 }
-                // 获取 token 中的 user id
                 String userName;
                 try {
+                    // 获取 token 中的 user id
                     userName = JWT.decode(token).getAudience().get(0);
                 } catch (JWTDecodeException j) {
-                    throw new RuntimeException("401");
+                    message = Result.error("解析token出错");
+                    sendResponse(httpServletResponse,message);
+                    return false;
                 }
-                User user = userService.getLogin(new User(userName));
+                User loginUser = new User(userName);
+                User user = userService.selectUserById(loginUser.getUserName());
                 if (user == null) {
-                    throw new RuntimeException("用户不存在，请重新登录");
+                    message = Result.error("用户不存在，请重新登录");
+                    sendResponse(httpServletResponse,message);
+                    return false;
                 }
-                // 验证 token
-                JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
-                try {
-                    jwtVerifier.verify(token);
-                } catch (JWTVerificationException e) {
-                    throw new RuntimeException("401");
+                try{
+                    // 验证 token
+                    TokenUtil.verify(token);
+                }catch (Exception e){
+                    if (e.getMessage().startsWith("The Token can't be used before")) {
+                        message = Result.warning("token未生效");
+                        sendResponse(httpServletResponse,message);
+                        return false;
+
+                    }
+                    if (e.getMessage().startsWith("The Token has expired on")) {
+                        message = Result.refuse("token已过期，请重新登录");
+                        sendResponse(httpServletResponse,message);
+                        return false;
+                    }
                 }
                 return true;
             }
         }
         return true;
     }
-    /*@Override
-    public boolean preHandle(javax.servlet.http.HttpServletRequest httpServletRequest, javax.servlet.http.HttpServletResponse httpServletResponse, Object o) throws Exception {
-        if(httpServletRequest.getMethod().equals("OPTIONS")){
-            httpServletResponse.setStatus(HttpServletResponse.SC_OK);
-            return true;
-        }
-        httpServletResponse.setCharacterEncoding("utf-8");
-        String token = httpServletRequest.getHeader("token");
-        if(token != null){
-            boolean result = TokenUtil.verify(token);
-            if(result){
-                System.out.println("通过拦截器");
-                return true;
-            }
-        }
-        httpServletResponse.setCharacterEncoding("UTF-8");
-        httpServletResponse.setContentType("application/json; charset=utf-8");
-        try{
-            JSONObject json = new JSONObject();
-            json.put("msg","token verify fail");
-            json.put("code","50000");
-            httpServletResponse.getWriter().append(json.toJSONString());
-            System.out.println("认证失败，未通过拦截器");
-        }catch (Exception e){
+
+    private void sendResponse(HttpServletResponse response, Result message) {
+        try {
+            response.setContentType("application/json; charset=utf-8");
+            PrintWriter writer = response.getWriter();
+//            writer.print(message);
+            writer.print(JSONObject.toJSONString(message, SerializerFeature.WriteMapNullValue,
+                    SerializerFeature.WriteDateUseDateFormat));
+            writer.close();
+            response.flushBuffer();
+        } catch (IOException e) {
             e.printStackTrace();
-            httpServletResponse.sendError(500);
-            return false;
         }
-        return false;
-    }*/
+    }
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
