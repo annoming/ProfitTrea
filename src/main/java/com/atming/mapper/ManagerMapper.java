@@ -1,8 +1,8 @@
 package com.atming.mapper;
 
-import com.atming.entity.OrganizationManger;
 import com.atming.entity.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +29,23 @@ public interface ManagerMapper {
 
     List selectAll();
 
+    List selectManagerAsName(String organization,String userName);
+
+    List selectAdminAsName(String userName);
+
+    List findByUserName(String userName);
+
+    List findByDate(String organization,Date startTime, Date endTime);
+
+    List findAllDate(Date startTime, Date endTime);
+
+    List findByNameAndDate(String userName, Date startTime, Date endTime);
+
     int deleteManager(String userId);
 
     User findById(String userId);
+
+    int updateById(String userId, String realName, String email, Date time);
+
+    int updateUserById(String userId, String realName, String email, String studentNumber, String major, String grade,Date updateTime);
 }

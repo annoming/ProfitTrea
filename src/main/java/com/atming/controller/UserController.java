@@ -1,5 +1,6 @@
 package com.atming.controller;
 
+import com.atming.annotation.UserLoginToken;
 import com.atming.entity.OrganizationManger;
 import com.atming.entity.User;
 import com.atming.service.OrganizeService;
@@ -33,6 +34,7 @@ public class UserController {
 
     @ResponseBody
     @PostMapping(value = "/account/{action}.do")
+    @UserLoginToken
     public Result operateAccount(@RequestBody Map<String, Object> info, @PathVariable String action) {
 
         operate = action;

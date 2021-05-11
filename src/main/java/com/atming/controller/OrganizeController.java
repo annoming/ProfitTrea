@@ -6,19 +6,17 @@ import com.atming.service.ManagerService;
 import com.atming.service.OrganizeService;
 import com.atming.utils.CreateIdUtil;
 import com.atming.utils.result.Result;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author annoming
  * @date 2021/3/21 7:32 上午
- * todo 过滤去过滤未登录的请求
+ * todo 过滤未登录的请求
  */
 @Controller
 @RequestMapping(value = "/profittrea")
@@ -77,6 +75,25 @@ public class OrganizeController {
     private boolean dealData() {
         int newOrganizeId;
         if ("ADD||ORGANIZATION".equals(operate)) {
+            if (StringUtils.isBlank(organization.getOrganizeName())) {
+                message = Result.fail("组织名不能为空");
+                return false;
+            }
+
+            if (StringUtils.isBlank(organization.getEmail())) {
+                message = Result.fail("邮箱不能为空");
+                return false;
+            }
+
+            if (StringUtils.isBlank(organization.getAddress())) {
+                message = Result.fail("地址不能为空");
+                return false;
+            }
+
+            if (StringUtils.isBlank(organization.getType())) {
+                message = Result.fail("组织性质不能为空");
+                return false;
+            }
             //判断邮箱是否已经注册
             OrganizationManger organize = organizeService.isExists(organization);
             if (organize == null) {
@@ -90,7 +107,7 @@ public class OrganizeController {
                     } else {
                         message = Result.fail("添加失败");
                     }
-                }else{
+                } else {
                     message = Result.fail("邮箱已被使用");
                 }
             } else {
@@ -108,8 +125,38 @@ public class OrganizeController {
                 message = Result.fail("删除失败");
             }
         } else if ("UPDATE||ORGANIZATION".equals(operate)) {
+            String organizeName = organization.getOrganizeName();
+            String email = organization.getEmail();
+            String address = organization.getAddress();
+            String type = organization.getType();
+            if (StringUtils.isBlank(organizeName)) {
+                message = Result.fail("组织名不能为空");
+                return false;
+            }
 
+            if (StringUtils.isBlank(email)) {
+                message = Result.fail("邮箱不能为空");
+                return false;
+            }
+
+            if (StringUtils.isBlank(address)) {
+                message = Result.fail("地址不能为空");
+                return false;
+            }
+
+            if (StringUtils.isBlank(type)) {
+                message = Result.fail("组织性质不能为空");
+                return false;
+            }
+
+            int updateCode = organizeService.updateOrganizeById(organizeName, email, address, type, new Date(), organization.getOrganizationId());
+            if(updateCode == 1){
+                message = Result.success(updateCode);
+            }else{
+                message = Result.fail("更新组织信息失败");
+            }
         } else if ("QUERY||ORGANIZATION".equals(operate)) {
+            //获取组织信息
             List<OrganizationManger> list = organizeService.getAll();
             message = Result.success(list);
         } else if ("ID||ORGANIZATION".equals(operate)) {
@@ -130,6 +177,45 @@ public class OrganizeController {
                 }
                 message = Result.success(map);
             }
+        } else if ("MATCH||ORGANIZENAME".equals(operate)) {
+            //根据组织名模糊查询组织
+            String organizeName = organization.getOrganizeName();
+            List<OrganizationManger> list = organizeService.getOrganizeByName(organizeName);
+            List organize = new ArrayList();
+            for (OrganizationManger o : list
+            ) {
+                Map<String, Object> map = new HashMap<>();
+                map.put("value", o.getOrganizeName());
+                organize.add(map);
+            }
+            message = Result.success(organize);
+        } else if ("QUERY||ORGANIZEONE".equals(operate)) {
+            String organizeName = organization.getOrganizeName();
+            Date startTime = organization.getCreateTime();
+            Date endTime = organization.getUpdateTime();
+            List<OrganizationManger> list;
+            if (StringUtils.isNotBlank(organizeName)) {
+                if (startTime != null && endTime != null) {
+                    //根据组织名和创建时间查询
+                    list = organizeService.getByNameAndDate(organizeName, startTime, endTime);
+                } else {
+                    //根据组织名查询
+                    list = organizeService.getSelectOrganizeName(organizeName);
+                }
+                if (list == null) {
+                    message = Result.fail("查询组织数据异常");
+                    return false;
+                }
+            } else {
+                if (startTime != null && endTime != null) {
+                    //根据创建时间查询
+                    list = organizeService.getByDate(startTime, endTime);
+                } else {
+                    message = Result.fail("查询数据为空");
+                    return false;
+                }
+            }
+            message = Result.success(list);
         }
         return true;
     }

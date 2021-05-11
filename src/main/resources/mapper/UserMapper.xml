@@ -7,6 +7,10 @@
         select * from profittrea_user where user_name = #{userName};
     </select>
 
+    <select id="findById" resultType="com.atming.entity.User">
+        select * from profittrea_user where user_id = #{userId};
+    </select>
+
     <update id="updateUserByUserId" parameterType="com.atming.entity.User">
         update profittrea_user
         <set>

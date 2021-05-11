@@ -6,6 +6,7 @@ import com.atming.service.OrganizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -36,6 +37,26 @@ public class OrganizeServiceImpl implements OrganizeService {
     }
 
     @Override
+    public List<OrganizationManger> getOrganizeByName(String organizeName) {
+        return organizeMapper.selectOrganizeByName(organizeName);
+    }
+
+    @Override
+    public List<OrganizationManger> getSelectOrganizeName(String organizeName) {
+        return organizeMapper.selectOneOrganize(organizeName);
+    }
+
+    @Override
+    public List<OrganizationManger> getByNameAndDate(String organizeName, Date startTime, Date endTime) {
+        return organizeMapper.selectOrganizeByDate(organizeName,startTime,endTime);
+    }
+
+    @Override
+    public List<OrganizationManger> getByDate(Date startTime, Date endTime) {
+        return organizeMapper.selectByDate(startTime, endTime);
+    }
+
+    @Override
     public int addOneOrganize(OrganizationManger organize) {
         return organizeMapper.insertOrganize(organize);
     }
@@ -48,6 +69,11 @@ public class OrganizeServiceImpl implements OrganizeService {
     @Override
     public int deleteUserByOrganizeId(String organizeId) {
         return organizeMapper.deleteUser(organizeId);
+    }
+
+    @Override
+    public int updateOrganizeById(String organizeName, String email, String address, String type,Date updateTime,String organizeId) {
+        return organizeMapper.updateOrganizeById(organizeName, email, address, type, updateTime, organizeId);
     }
 
     @Override

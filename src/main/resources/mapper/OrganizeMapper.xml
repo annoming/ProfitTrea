@@ -15,8 +15,24 @@
         select * from profittrea_organization where organize_name != 'administrator'
     </select>
 
+    <select id="selectOrganizeByName" resultType="com.atming.entity.OrganizationManger">
+        select * from profittrea_organization where organize_name != 'administrator' and organize_name like "%"#{organizeName}"%"
+    </select>
+
     <select id="selectId" resultType="String">
         select organization_id from profittrea_organization order by organization_id desc limit 0,1
+    </select>
+
+    <select id="selectOneOrganize" resultType="com.atming.entity.OrganizationManger">
+        select * from profittrea_organization where organize_name != 'administrator' and organize_name = #{organizeName}
+    </select>
+
+    <select id="selectOrganizeByDate" resultType="com.atming.entity.OrganizationManger">
+        select * from profittrea_organization where organize_name != 'administrator' and organize_name = #{0} and create_time between #{1} and #{2}
+    </select>
+
+    <select id="selectByDate" resultType="com.atming.entity.OrganizationManger">
+        select * from profittrea_organization where organize_name != 'administrator' and create_time between #{0} and #{1}
     </select>
 
     <insert id="insertOrganize" parameterType="com.atming.entity.OrganizationManger">
@@ -40,5 +56,16 @@
         select country from city where city_name = #{cityName}
     </select>
 
+    <update id="updateOrganizeById">
+        update profittrea_organization
+        <set>
+            organize_name=#{0},
+            email=#{1},
+            address=#{2},
+            type=#{3},
+            update_time=#{4}
+        </set>
+        where organization_id=#{5}
+    </update>
 
 </mapper>

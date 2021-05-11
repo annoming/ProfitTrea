@@ -40,6 +40,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public FiveOrder findFiveOrder(String stockCode) {
+        return transactionMapper.selectFiveOrder(stockCode);
+    }
+
+    @Override
     public int insertRevokeToList(RevokeList revokeList) {
         return transactionMapper.insertRevoke(revokeList);
     }
@@ -50,13 +55,23 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TodayEntrust> findUserEntrust(String userId) {
-        return transactionMapper.selectEntrustByUserId(userId);
+    public List<TodayEntrust> findUserEntrust(String userId,String date) {
+        return transactionMapper.selectEntrustByUserId(userId,date);
+    }
+
+    @Override
+    public List<TodayEntrust> findStockEntrust(String stockCode) {
+        return transactionMapper.selectEntrustByStockCode(stockCode);
     }
 
     @Override
     public List<Fund> findUserFund(String userId) {
         return transactionMapper.selectFundByUserId(userId);
+    }
+
+    @Override
+    public Fund findFundByStock(String stockCode) {
+        return transactionMapper.selectFundByStock(stockCode);
     }
 
     @Override
@@ -70,8 +85,18 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    public Fund findFundByIdAndStock(String userId, String stockCode) {
+        return transactionMapper.selectFundByIdAndStock(userId,stockCode);
+    }
+
+    @Override
     public int insertEntrust(TodayEntrust todayEntrust) {
         return transactionMapper.insertTodayEntrust(todayEntrust);
+    }
+
+    @Override
+    public int updateEntrust(TodayEntrust todayEntrust) {
+        return transactionMapper.updateTodayEntrust(todayEntrust);
     }
 
     @Override
@@ -82,6 +107,21 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public int insertStockFund(Fund fund) {
         return transactionMapper.insertTodayFund(fund);
+    }
+
+    @Override
+    public int updateStockFund(Fund fund) {
+        return transactionMapper.updateTodayFund(fund);
+    }
+
+    @Override
+    public int updateShare(Share share) {
+        return transactionMapper.updateShareById(share);
+    }
+
+    @Override
+    public int deleteRevokeById(String id) {
+        return transactionMapper.deleteRevokeById(id);
     }
 
 }

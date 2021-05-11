@@ -1,5 +1,6 @@
 package com.atming.controller;
 
+import com.atming.annotation.UserLoginToken;
 import com.atming.entity.Announce;
 import com.atming.entity.News;
 import com.atming.entity.Stock;
@@ -31,6 +32,7 @@ public class QuotationController {
 
     @GetMapping(value = "/quotation/{action}.do")
     @ResponseBody
+    @UserLoginToken
     public Result getData(@PathVariable String action) {
         operate = action;
         if (!getInputData()) {

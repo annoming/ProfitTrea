@@ -2,6 +2,7 @@ package com.atming.mapper;
 
 import com.atming.entity.OrganizationManger;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +22,14 @@ public interface OrganizeMapper {
     OrganizationManger selectByID(String organizationId);
 
     List selectAll();
+
+    List selectOrganizeByName(String organizeName);
+
+    List selectOneOrganize(String organizeName);
+
+    List selectOrganizeByDate(String organizeName, Date startTime, Date endTime);
+
+    List selectByDate(Date startTime, Date endTime);
     /**
      * 插入组织信息
      * @param organize
@@ -41,4 +50,6 @@ public interface OrganizeMapper {
     List getCityList();
 
     List getCountryList(String cityName);
+
+    int updateOrganizeById(String organizeName, String email, String address, String type,Date updateTime,String organizeId);
 }

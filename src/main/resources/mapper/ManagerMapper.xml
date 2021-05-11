@@ -12,7 +12,7 @@
     </select>
 
     <select id="selectManagers" resultType="com.atming.entity.User">
-        select * from profittrea_user where organization = #{organization}
+        select * from profittrea_user where organization = #{organization} and real_name != ''
     </select>
 
     <select id="selectAll" resultType="com.atming.entity.User">
@@ -21,6 +21,26 @@
 
     <select id="selectOrganizeByEmail" resultType="String">
         select organization from profittrea_user where email = #{email}
+    </select>
+
+    <select id="selectManagerAsName" resultType="com.atming.entity.User">
+        select * from profittrea_user where organization = #{0} and user_name like "%"#{1}"%" and real_name != ''
+    </select>
+
+    <select id="selectAdminAsName" resultType="com.atming.entity.User">
+        select * from profittrea_user where user_name like "%"#{userName}"%"
+    </select>
+
+    <select id="findByDate" resultType="com.atming.entity.User">
+        select * from profittrea_user where organization = #{0} and create_time between #{1} and #{2} and role_type = 104
+    </select>
+
+    <select id="findAllDate" resultType="com.atming.entity.User">
+        select * from profittrea_user where create_time between #{0} and #{1} and role_type = 104
+    </select>
+
+    <select id="findByNameAndDate" resultType="com.atming.entity.User">
+        select * from profittrea_user where user_name = #{0} and create_time between #{1} and #{2}
     </select>
 
     <insert id="insertUser" parameterType="com.atming.entity.User">
@@ -35,4 +55,32 @@
     <select id="findById" resultType="com.atming.entity.User">
         select * from profittrea_user where user_id = #{userId};
     </select>
+
+    <select id="findByUserName" resultType="com.atming.entity.User">
+        select * from profittrea_user where user_name = #{userName};
+    </select>
+
+    <update id="updateById">
+        update profittrea_user
+        <set>
+            real_name=#{1},
+            email=#{2},
+            update_time=#{3}
+        </set>
+        where user_id=#{0}
+    </update>
+
+    <update id="updateUserById">
+        update profittrea_user
+        <set>
+            real_name=#{1},
+            email=#{2},
+            student_number=#{3},
+            major=#{4},
+            grade=#{5},
+            update_time=#{6}
+        </set>
+        where user_id=#{0}
+    </update>
+
 </mapper>

@@ -19,6 +19,8 @@ public interface UserService{
      */
     User getLogin(User user);
 
+    User selectUserById(String userId);
+
     int updateUserInfo(User user);
 
     int updateMarketTime(String organizeId, String startMorning, String endMorning, String startAfternoon, String endAfternoon);

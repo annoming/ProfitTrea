@@ -19,17 +19,33 @@ public interface TransactionMapper {
 
     Market selectMarketInfo(String organizeId);
 
+    Fund selectFundByStock(String stockCode);
+
+    Fund selectFundByIdAndStock(String userId, String stockCode);
+
+    FiveOrder selectFiveOrder(String stockCode);
+
     int insertRevoke(RevokeList revokeList);
 
     int insertTodayEntrust(TodayEntrust entrust);
+
+    int updateTodayEntrust(TodayEntrust entrust);
 
     int insertTodayTransaction(TodayTransaction todayTransaction);
 
     int insertTodayFund(Fund fund);
 
+    int updateTodayFund(Fund fund);
+
+    int deleteRevokeById(String id);
+
+    int updateShareById(Share share);
+
     List selectRevokeByUserId(String userId);
 
-    List selectEntrustByUserId(String userId);
+    List selectEntrustByUserId(String userId,String entrustDate);
+
+    List selectEntrustByStockCode(String stockCode);
 
     List selectFundByUserId(String userId);
 

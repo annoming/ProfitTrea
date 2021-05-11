@@ -24,11 +24,23 @@
     </select>
 
     <select id="selectEntrustByUserId" resultType="com.atming.entity.TodayEntrust">
-        select * from today_entrust where user_id = #{userId}
+        select * from today_entrust where user_id = #{0} and entrust_date = #{1}
+    </select>
+
+    <select id="selectEntrustByStockCode" resultType="com.atming.entity.TodayEntrust">
+        select * from today_entrust where stock_code = #{stockCode}
+    </select>
+
+    <select id="selectFundByStock" resultType="com.atming.entity.Fund">
+        select * from fund where stock_code = #{stockCode}
     </select>
 
     <select id="selectFundByUserId" resultType="com.atming.entity.Fund">
         select * from fund where user_id = #{userId}
+    </select>
+
+    <select id="selectFundByIdAndStock" resultType="com.atming.entity.Fund">
+        select * from fund where user_id = #{0} and stock_code = #{1}
     </select>
 
     <select id="selectTodayTransaction" resultType="com.atming.entity.TodayTransaction">
@@ -37,6 +49,10 @@
 
     <select id="selectTransaction" resultType="com.atming.entity.TodayTransaction">
         select * from today_transaction where user_id = #{userId}
+    </select>
+
+    <select id="selectFiveOrder" resultType="com.atming.entity.FiveOrder">
+        select * from five_order where stock_code = #{stockCode}
     </select>
 
     <insert id="insertRevoke" parameterType="com.atming.entity.RevokeList">
@@ -59,4 +75,45 @@
         values(#{userId},#{stockCode},#{stockName},#{stockNumber},#{usefulNumber},#{freezeNumber},#{costPrice},#{marketPrice},#{marketValue},#{floatProfit},#{profitRatio})
     </insert>
 
+    <update id="updateTodayEntrust" parameterType="com.atming.entity.TodayEntrust">
+        update today_entrust
+        <set>
+            <if test="transactionNumber != null" >transaction_number = #{transactionNumber},</if>
+            <if test="transactionPrice != null" >transaction_price = #{transactionPrice},</if>
+            <if test="entrustDate != null" >entrust_date = #{entrustDate},</if>
+            <if test="entrustTime != null" >entrust_time = #{entrustTime},</if>
+            <if test="description != null" >description = #{description}</if>
+        </set>
+        where entrust_id = #{entrustId}
+    </update>
+
+    <update id="updateTodayFund" parameterType="com.atming.entity.Fund">
+        update fund
+        <set>
+            <if test="stockCode != null" >stock_code = #{stockCode},</if>
+            <if test="stockName != null" >stock_name = #{stockName},</if>
+            <if test="stockNumber != null" >stock_number = #{stockNumber},</if>
+            <if test="usefulNumber != null" >useful_number = #{usefulNumber},</if>
+            <if test="freezeNumber != null" >freeze_number = #{freezeNumber},</if>
+            <if test="costPrice != null" >cost_price = #{costPrice},</if>
+            <if test="marketPrice != null" >market_price = #{marketPrice},</if>
+            <if test="marketValue != null" >market_value = #{marketValue},</if>
+            <if test="floatProfit != null" >float_profit = #{floatProfit},</if>
+            <if test="profitRatio != null" >profit_ratio = #{profitRatio}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateShareById" parameterType="com.atming.entity.Share">
+        update share
+        <set>
+            <if test="availableBalance != null">available_balance = available_balance + #{availableBalance},</if>
+            <if test="freezeBalance != null">freeze_balance = #{freezeBalance}</if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteRevokeById">
+        delete from revoke_list where id = #{id}
+    </delete>
 </mapper>
