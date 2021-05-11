@@ -9,6 +9,7 @@ import com.atming.service.UserService;
 import com.atming.utils.PasswordSaltUtil;
 import com.atming.utils.TokenUtil;
 import com.atming.utils.result.Result;
+import com.auth0.jwt.exceptions.InvalidClaimException;
 import com.auth0.jwt.interfaces.Claim;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,10 +71,11 @@ public class LoginController {
         }
     }
 
-    @PostMapping(value = "/logout.do")
+    @PostMapping(value = "/logout/{action}.do")
     @ResponseBody
-    public Result logout(@RequestBody User user){
+    public Result logout(@RequestBody User user,@PathVariable String action){
         loginer = user;
+        operate = action;
         if (!getInputData()) {
             return message;
         }
@@ -87,7 +89,7 @@ public class LoginController {
 
     private boolean getInputData() {
         try {
-            if (!StringUtils.isNotBlank(loginer.getUserName())) {
+            if (!StringUtils.isNotBlank(loginer.getUserName()) && !StringUtils.isNotBlank(operate)) {
                 message = Result.fail("接收前台数据出错");
                 return false;
             }
@@ -100,28 +102,24 @@ public class LoginController {
 
     private boolean dealData() {
         String token = loginer.getUserName();
-        Map<String, Claim> verify = TokenUtil.verify(token);
-        //签发时间
-        Claim iat = verify.get("iat");
-        //过期时间
-        Claim exp = verify.get("exp");
-        //生效时间
-        Claim nbf = verify.get("nbf");
-        //过期时间 - 生效时间
-        Long expTime = exp.asLong();
-        Long iatTime = nbf.asLong();
-        Long nbfTime = nbf.asLong();
-        Date date = new Date();
-        Long now = date.getTime();
-        if (now < iatTime) {
-            message = Result.error("token未生效");
-        }else{
-            if (expTime - now < expTime - nbfTime) {
-                message = Result.success(token);
-            }else{
-                message = Result.refuse("token失效");
+        if ("SIGNOUT".equals(operate)) {
+            message = Result.exit("退出");
+        } else if ("VERIFY".equals(operate)) {
+            try{
+                TokenUtil.verify(token);
+            }catch (Exception e){
+                if (e.getMessage().startsWith("The Token can't be used before")) {
+                    message = Result.error("token未生效");
+                    return false;
+                }
+                if (e.getMessage().startsWith("The Token has expired on")) {
+                    message = Result.refuse("token已过期，请重新登录");
+                    return false;
+                }
             }
+            message = Result.success(token);
         }
+
         return true;
     }
 }
