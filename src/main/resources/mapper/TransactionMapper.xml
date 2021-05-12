@@ -108,7 +108,10 @@
         update share
         <set>
             <if test="availableBalance != null">available_balance = available_balance + #{availableBalance},</if>
-            <if test="freezeBalance != null">freeze_balance = #{freezeBalance}</if>
+            <if test="fundBalance != null">fund_balance = fund_balance + #{fundBalance},</if>
+            <if test="freezeBalance != null">freeze_balance = freeze_balance + #{freezeBalance},</if>
+            <if test="totalFund != null">total_fund = total_fund + #{totalFund},</if>
+            <if test="totalProfit != null">total_profit = total_profit + #{totalProfit}</if>
         </set>
         where user_id = #{userId}
     </update>

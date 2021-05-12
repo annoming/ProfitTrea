@@ -749,6 +749,43 @@ public class TransactionController {
                 maxSale = fund.getUsefulNumber();
                 message = Result.success(maxSale.toString());
 
+            }else if("SEND||FUND".equals(operate)){
+                String userId = transaction.getUserId();
+                Double fund = transaction.getUsefulFund();
+                Share share = new Share();
+                share.setUserId(userId);
+                share.setAvailableBalance(0.0);
+                share.setFundBalance(0.0);
+                share.setFreezeBalance(0.0);
+                share.setTotalFund(fund);
+                share.setTotalProfit(0.0);
+                int updateShare = transactionService.updateShare(share);
+                if (updateShare != 1) {
+
+                }
+            } else if ("ALL||TRANSACTION".equals(operate)) {
+                List<TodayTransaction> transactionList;
+                String userId = transaction.getUserId();
+                String organization = transaction.getOrganizationId();
+                if (StringUtils.isBlank(userId)) {
+                    message = Result.fail("查询参数不能空");
+                    return false;
+                }else{
+                    List<User> users = managerService.findAllUser(organization);
+                    String isOrganizeUser = "N";
+                    for (User u:users
+                         ) {
+                        if (u.getUserId().equals(userId)) {
+                            isOrganizeUser = "Y";
+                        }
+                    }
+                    if ("N".equals(isOrganizeUser)) {
+                        message = Result.fail("该用户不存在当前组织中");
+                        return false;
+                    }
+                    transactionList = transactionService.findUserTransaction(userId);
+                }
+                message = Result.success(transactionList);
             }
         } catch (
                 Exception e) {
