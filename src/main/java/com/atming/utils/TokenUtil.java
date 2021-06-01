@@ -11,6 +11,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -32,7 +33,7 @@ public class TokenUtil {
         nowTime2.add(Calendar.SECOND, 0);
         Date effectTime = nowTime2.getTime();
         //指定token过期时间:当前时间1min后
-        nowTime.add(Calendar.MINUTE, 1);
+        nowTime.add(Calendar.MINUTE, 20);
         Date maturityTime = nowTime.getTime();
         token= JWT.create().withAudience(user.getUserId())
                 //设置签发时间
@@ -53,21 +54,9 @@ public class TokenUtil {
         }
     }
 
-    private static Map<String, Claim> verifyToken(String token) {
+    private static Map<String, Claim> verifyToken(String token) throws JWTVerificationException{
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
-        DecodedJWT jwt = null;
-        try {
-            jwt = verifier.verify(token);
-        } catch (JWTVerificationException e) {
-            e.printStackTrace();
-            if (e.getMessage().startsWith("The Token can't be used before")) {
-                throw new InvalidClaimException("登录凭证暂未生效");
-            }
-            if (e.getMessage().startsWith("The Token has expired on")) {
-                throw new InvalidClaimException("登录凭证已过期，请重新登录");
-            }
-        }
-        assert jwt != null;
+        DecodedJWT jwt = verifier.verify(token);
         return jwt.getClaims();
     }
 }

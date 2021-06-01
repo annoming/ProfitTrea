@@ -124,4 +124,9 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionMapper.deleteRevokeById(id);
     }
 
+    @Override
+    public int deleteByTodayEntrust(String stockCode, String date) {
+        return transactionMapper.deleteTodayEntrustByCode(stockCode,date);
+    }
+
 }

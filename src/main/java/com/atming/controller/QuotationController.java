@@ -26,7 +26,6 @@ public class QuotationController {
     @Autowired
     private QuotationService quotationService;
     private String operate;
-//    private News newList;
     private static Result message;
 
 

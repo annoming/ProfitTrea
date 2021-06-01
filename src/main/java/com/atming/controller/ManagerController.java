@@ -7,6 +7,7 @@ import com.atming.entity.Role;
 import com.atming.entity.User;
 import com.atming.service.*;
 import com.atming.utils.CreateIdUtil;
+import com.atming.utils.DateTransformUtil;
 import com.atming.utils.EmailUtil;
 import com.atming.utils.PasswordSaltUtil;
 import com.atming.utils.result.Result;
@@ -161,8 +162,8 @@ public class ManagerController {
             if (token != null) {
                 String userId = JWT.decode(token).getAudience().get(0);
                 User user = managerService.getUserById(userId);
-                OrganizationManger organization = organizeService.findOrganizeById(user.getOrganization());
-                user.setOrganization(organization.getOrganizeName());
+//                OrganizationManger organization = organizeService.findOrganizeById(user.getOrganization());
+//                user.setOrganization(organization.getOrganizeName());
                 message = Result.success(user);
             } else {
                 message = Result.refuse("token失效,请重新登录");

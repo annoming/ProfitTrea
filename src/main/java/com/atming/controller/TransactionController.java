@@ -294,7 +294,6 @@ public class TransactionController {
                                     }
                                 }
 
-
                                 //系统自动全部买入卖出
                                 if (remainNumber > 0) {
                                     todayEntrust.setTransactionPrice(transaction.getBuyPrice());
@@ -310,6 +309,8 @@ public class TransactionController {
                                         return false;
                                     }
                                 }
+
+                                //更新股份资产
                                 Fund fund = new Fund();
                                 fund.setUserId(todayEntrust.getUserId());
                                 fund.setStockCode(todayEntrust.getStockCode());
@@ -334,7 +335,8 @@ public class TransactionController {
                                 if(revokeResult != 1){
                                     message = Result.fail("更新撤单数据失败");
                                 }
-                                // TODO: 2021/5/11 更新成交     匹配用户更新
+
+                                // TODO: 2021/5/11 更新成交数据     匹配用户更新
                                 //当前用户更新成交数据
                                 nowTransaction.setTransactionId(todayEntrust.getEntrustId());
                                 nowTransaction.setUserId(todayEntrust.getUserId());
@@ -353,6 +355,32 @@ public class TransactionController {
                                     message = Result.fail("插入失败");
                                 }
 
+                            }
+
+                            //更新资金数据前查询撤单数据
+                            List<RevokeList> revokeLists = transactionService.findUserRevoke(revoke.getUserId());
+                            double revokeCount = 0.0;
+                            if(revokeLists != null){
+                                for (RevokeList r:revokeLists
+                                ) {
+                                    if (r.getStockCode().equals(todayEntrust.getStockCode())) {
+                                        revokeCount =  r.getEntrustPrice() * r.getEntrustNumber() * (1 + market.getCommission());
+                                    }
+                                }
+                            }
+
+                            //更新资金资产
+                            Share share = new Share();
+                            share.setUserId(todayEntrust.getUserId());
+                            share.setAvailableBalance(0.0);
+                            share.setFundBalance(0.0);
+                            share.setFreezeBalance(revokeCount);
+                            share.setTotalFund(0.0);
+                            share.setTotalProfit(0.0);
+                            int updateShare = transactionService.updateShare(share);
+                            if(updateShare != 1){
+                                message = Result.fail("更新资金数据失败");
+                                return false;
                             }
                             message = Result.success("委托成功");
                         } else if ("xianjia".equals(transaction.getEntrustType())) {
@@ -637,6 +665,7 @@ public class TransactionController {
                     message = Result.success(entrustList);
                 }
             } else if ("QUERY||FUND".equals(operate)) {
+                //todo 获取用户股份资产后，判断是T日还是T+1日
                 String userId = transaction.getUserId();
                 List<Fund> funds = transactionService.findUserFund(userId);
                 if (funds == null) {
@@ -660,8 +689,10 @@ public class TransactionController {
                 }
                 message = Result.success(transaction);
             } else if ("STOCK||REVOKE".equals(operate)) {
+                String organizationId = transaction.getOrganizationId();
                 //执行撤单接口
                 ArrayList revoke = transaction.getRevoke();
+                Market market = transactionService.findMarket(organizationId);
                 if (revoke == null) {
                     message = Result.fail("接受撤单数据失败");
                     return false;
@@ -680,8 +711,31 @@ public class TransactionController {
                     revokeId = (String) map.get("id");
                     //删撤单表数据
                     revokeResult = transactionService.deleteRevokeById(revokeId);
-                    if (revokeResult == 0) {
+                    //更新资金数据
+                    Share share = new Share();
+                    share.setUserId((String) map.get("userId"));
+                    int  entrustNumber =  (int)map.get("entrustNumber");
+                    double entrustPrice =  (double)map.get("entrustPrice");
+                    share.setFreezeBalance(-(entrustNumber * entrustPrice * (1 + market.getCommission())));
+                    share.setTotalFund(0.0);
+                    share.setAvailableBalance(entrustNumber * entrustPrice * (1 + market.getCommission()));
+                    share.setFundBalance(entrustNumber * entrustPrice * (1 + market.getCommission()));
+                    share.setTotalProfit(0.0);
+                    //更新委托数据
+                    String stockCode = (String)map.get("stockCode");
+                    String date = DateTransformUtil.transformToDate();
+                    int deleteTodayEntrust = transactionService.deleteByTodayEntrust(stockCode,date);
+                    int updateShare = transactionService.updateShare(share);
+                    if(updateShare != 1){
+                        message = Result.fail("撤单后更新资产数据失败");
+                        return false;
+                    }
+                    if (revokeResult != 1) {
                         message = Result.fail("撤销委托失败");
+                        return false;
+                    }
+                    if(deleteTodayEntrust != 1){
+                        message = Result.fail("撤单后更新当日委托失败");
                         return false;
                     }
                     message = Result.success(revokeResult);

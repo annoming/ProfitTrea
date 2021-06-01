@@ -37,6 +37,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public int updateUserNameById(User user) {
+        return userMapper.updateUserName(user);
+    }
+
+    @Override
+    public int updateEmailById(User user) {
+        return userMapper.updateEmail(user);
+    }
+
+    @Override
     public int updateMarketTime(String organizeId, String startMorning, String endMorning, String startAfternoon, String endAfternoon) {
         return userMapper.updateMarketByOrganize(organizeId,startMorning,endMorning,startAfternoon,endAfternoon);
     }

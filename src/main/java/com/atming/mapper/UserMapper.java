@@ -17,5 +17,10 @@ public interface UserMapper {
 
     int updateUserByUserId(User user);
 
+    int updateUserName(User user);
+
+    int updateEmail(User user);
+
+
     int updateMarketByOrganize(String organizeId, String startMorning, String endMorning, String startAfternoon, String endAfternoon);
 }

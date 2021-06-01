@@ -119,4 +119,8 @@
     <delete id="deleteRevokeById">
         delete from revoke_list where id = #{id}
     </delete>
+
+    <delete id="deleteTodayEntrustByCode">
+        delete from today_entrust where stock_code = #{0} and entrust_date = #{1}
+    </delete>
 </mapper>

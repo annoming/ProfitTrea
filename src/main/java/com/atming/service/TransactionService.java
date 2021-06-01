@@ -53,4 +53,6 @@ public interface TransactionService {
     int updateShare(Share share);
 
     int deleteRevokeById(String id);
+
+    int deleteByTodayEntrust(String stockCode,String date);
 }

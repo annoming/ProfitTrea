@@ -19,6 +19,22 @@
         where user_Id=#{userId}
     </update>
 
+    <update id="updateUserName" parameterType="com.atming.entity.User">
+        update profittrea_user
+        <set>
+            <if test="userName != null">user_name=#{userName}</if>
+        </set>
+        where user_Id=#{userId}
+    </update>
+
+    <update id="updateEmail" parameterType="com.atming.entity.User">
+        update profittrea_user
+        <set>
+            <if test="email != null">email=#{email}</if>
+        </set>
+        where user_Id=#{userId}
+    </update>
+
     <update id="updateMarketByOrganize">
         update market
         <set>

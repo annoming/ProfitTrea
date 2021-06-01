@@ -39,6 +39,8 @@ public interface TransactionMapper {
 
     int deleteRevokeById(String id);
 
+    int deleteTodayEntrustByCode(String stockCode, String date);
+
     int updateShareById(Share share);
 
     List selectRevokeByUserId(String userId);

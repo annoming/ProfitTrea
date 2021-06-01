@@ -23,6 +23,10 @@ public interface UserService{
 
     int updateUserInfo(User user);
 
+    int updateUserNameById(User user);
+
+    int updateEmailById(User user);
+
     int updateMarketTime(String organizeId, String startMorning, String endMorning, String startAfternoon, String endAfternoon);
 
 

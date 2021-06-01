@@ -3,11 +3,13 @@ package com.atming.controller;
 import com.atming.annotation.UserLoginToken;
 import com.atming.entity.OrganizationManger;
 import com.atming.entity.User;
+import com.atming.service.ManagerService;
 import com.atming.service.OrganizeService;
 import com.atming.service.UserService;
 import com.atming.utils.DateTransformUtil;
 import com.atming.utils.PasswordSaltUtil;
 import com.atming.utils.result.Result;
+import com.auth0.jwt.JWT;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ManagerService managerService;
+    @Autowired
+    private OrganizeService organizeService;
     private String operate;
     private Map<String,Object> data;
     private static Result message;
@@ -143,6 +149,58 @@ public class UserController {
             }
 
 
+        } else if ("UPDATE||USERNAME".equals(operate)) {
+            String userName = (String) data.get("userName");
+            String userId = (String) data.get("userId");
+            if (StringUtils.isBlank(userName)) {
+                message = Result.fail("用户名不能为空");
+                return false;
+            }
+
+            if (StringUtils.isBlank(userId)) {
+                message = Result.fail("获取用户id异常");
+                return false;
+            }
+            User user = new User();
+            user.setUserId(userId);
+            user.setUserName(userName);
+            int updateUserName = userService.updateUserNameById(user);
+            if (updateUserName != 1) {
+                message = Result.fail("更新用户名异常");
+            }
+            message = Result.success(updateUserName);
+        } else if ("UPDATE||EMAIL".equals(operate)) {
+            String email = (String) data.get("email");
+            String userId = (String) data.get("userId");
+            if (StringUtils.isBlank(email)) {
+                message = Result.fail("邮箱不能为空");
+                return false;
+            }
+
+            if (StringUtils.isBlank(userId)) {
+                message = Result.fail("获取用户id异常");
+                return false;
+            }
+
+            User user = new User();
+            user.setUserId(userId);
+            user.setEmail(email);
+            int updateEmail = userService.updateEmailById(user);
+            if (updateEmail != 1) {
+                message = Result.fail("更新邮箱异常");
+            }
+            message = Result.success(updateEmail);
+        } else if ("QUERY||INFO".equals(operate)) {
+            String token = (String) data.get("token");
+            if (token != null) {
+                String userId = JWT.decode(token).getAudience().get(0);
+                User user = managerService.getUserById(userId);
+                OrganizationManger organization = organizeService.findOrganizeById(user.getOrganization());
+                user.setOrganization(organization.getOrganizeName());
+                message = Result.success(user);
+            } else {
+                message = Result.refuse("token失效,请重新登录");
+            }
         }
         return true;
     }
