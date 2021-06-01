@@ -52,6 +52,11 @@ public class DateTransformUtil {
         return sf.format(now);
     }
 
+    public static String transformDateToString(Date time) {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy 年 MM 月 dd 日 HH:mm:ss");
+        return sf.format(time);
+    }
+
     public static Date transformNowDate(String time) {
         Date now = new Date();
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
